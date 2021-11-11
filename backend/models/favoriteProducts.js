@@ -13,4 +13,4 @@ const favoriteProductsSchema = mongoose.Schema({
   },
 });
 
-exports.favoriteProducts = mongoose.model("FavoriteProducts", favoriteProductsSchema);
+exports.FavoriteProducts = mongoose.model("FavoriteProducts", favoriteProductsSchema);
