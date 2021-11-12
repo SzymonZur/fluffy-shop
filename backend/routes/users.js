@@ -49,23 +49,60 @@ router.post("/login", async (req, res) => {
 
 //register user method -- need to be better
 router.post("/register", async (req, res) => {
-  let user = new User({
-    name: req.body.name,
-    email: req.body.email,
-    passwordHash: bcrypt.hashSync(req.body.passwordHash, 10),
-    street: req.body.street,
-    apartment: req.body.apartment,
-    city: req.body.city,
-    zip: req.body.zip,
-    country: req.body.country,
-    phone: req.body.phone,
-  });
-  user = await user.save();
+  const {
+    name,
+    email,
+    passwordHash,
+    password2,
+    street,
+    apartment,
+    city,
+    zip,
+    country,
+    phone,
+  } = req.body;
+  let errors = [];
 
-  if (!user) {
-    res.status(400).send("The user cannot be created!");
+  //Validation conditions
+  if (!name || !email || !passwordHash || !password2 || !phone) {
+    errors.push({ msg: "Please fill in all fields" });
   }
-  res.send(user);
+
+  if (passwordHash !== password2) {
+    errors.push({ msg: "Passwords do not match" });
+  }
+
+  if (passwordHash.length < 6) {
+    errors.push({ msg: "Password should be at least 6 characters" });
+  }
+
+  if (errors.length > 0) {
+    // send object { MSG: ERROR }
+    res.status(400).send(errors);
+  } else {
+    // find if email is already exist in database
+    User.findOne({ email }).then((user) => {
+      if (user) {
+        errors.push({ msg: "Email is already registred" });
+        res.status(400).send(errors);
+      } else {
+        let user = new User({
+          name,
+          email,
+          passwordHash: bcrypt.hashSync(passwordHash, 10),
+          street,
+          apartment,
+          city,
+          zip,
+          country,
+          phone,
+        });
+        user.save();
+
+        res.send(user);
+      }
+    });
+  }
 });
 
 module.exports = router;
