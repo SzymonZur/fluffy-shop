@@ -4,13 +4,14 @@ const router = express.Router();
 
 router.get(`/`, async (req, res) =>{
     const productList = await Product.find();
-
+    
     if(!productList) {
         res.status(500).json({success: false})
     } 
     res.send(productList);
 })
 
+//add new product -- method for testing
 router.post("/", async (req, res) => {
     let newProduct = new Product({
       name: req.body.name,
@@ -22,7 +23,7 @@ router.post("/", async (req, res) => {
     newProduct = await newProduct.save();
   
     if (!newProduct) {
-      res.status(400).send("The favorite product cannot be added!");
+      res.status(400).send("The product cannot be added!");
     }
     res.send(newProduct);
   });

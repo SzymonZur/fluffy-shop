@@ -23,11 +23,10 @@ router.post("/", async (req, res) => {
       });
 
       newOrderItem = await newOrderItem.save();
-
       return newOrderItem._id;
     })
   );
-
+  // resoloving const from promise
   const orderItemsIdsResolve = await orderItemsIds;
   // Getting price from products and summing up together
   const totalPrices = await Promise.all(
@@ -40,7 +39,7 @@ router.post("/", async (req, res) => {
       return totalPrice;
     })
   );
-
+  // sum up order
   const totalPrice = totalPrices.reduce((a, b) => a + b, 0);
 
   let order = new Order({
