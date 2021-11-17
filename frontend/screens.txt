@@ -1,0 +1,15 @@
+Screeny 
+
+1. HOME SCREEN: 
+    - CATEGORIES BUTTONS: 
+        * ALL
+        * ...
+        * ...
+        * itp
+    - SEARCH BUTTON
+    - FILTERS
+2. CART
+
+3. FAVORITES
+
+4. PROFILE
