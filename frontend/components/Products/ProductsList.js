@@ -7,11 +7,12 @@ var { width } = Dimensions.get("window");
 const ProductsList = (props) => {
 const {item} = props;
   return (
-    <TouchableOpacity style={{ width: "50%" }}>
-      <View style={{ width: width / 2, backgroundColor: "gainsboro" }}>
+  
+      <View style={{ width: width / 2, backgroundColor: "white", marginBottom: 20 }}>
+        <TouchableOpacity>
           <ProductCard {...item}/>
+        </TouchableOpacity>
       </View>
-    </TouchableOpacity>
   );
 };
 

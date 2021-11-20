@@ -6,23 +6,47 @@ import {
   TouchableOpacity,
   FlatList,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 
 import CustomHeaderButton from "../components/UI/CustomHeaderButton";
 import ProductsList from "../components/Products/ProductsList";
+import CategoryFilter from "../components/Products/CategoryFilter";
 
 const data = require("../assets/data/products.json");
+const categoriesData = require("../assets/data/categories.json");
 
 const HomeScreen = (props) => {
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [prodcutsCategory, setProductsCategory] = useState([]);
+  const [active, setActive] = useState();
+  const [initialState, setInitialState] = useState([]);
 
   useEffect(() => {
     setProducts(data);
+    setCategories(categoriesData);
+    setActive(-1);
+    setInitialState(data);
 
     return () => {
       setProducts([]);
+      setCategories([]);
+      setActive();
+      setInitialState();
     };
   }, []);
+
+  const changeCategory = (ctg) => {
+    {
+      ctg === "all"
+        ? [setProductsCategory(initialState), setActive(true)]
+        : [
+            setProductsCategory(
+              products.filter((arg) => arg.category.$oid === ctg),
+              setActive(true)
+            ),
+          ];
+    }
+  };
 
   return (
     <View style={styles.screen}>
@@ -33,9 +57,18 @@ const HomeScreen = (props) => {
           actionToDo={() => {}}
         />
       </View>
+      <View>
+        <CategoryFilter
+          categories={categories}
+          categoriesFilter={changeCategory}
+          productsCtg={prodcutsCategory}
+          active={active}
+          setActive={setActive}
+        />
+      </View>
       <View style={styles.screen}>
         <FlatList
-        numColumns={2}
+          numColumns={2}
           data={products}
           renderItem={({ item }) => <ProductsList key={item.id} item={item} />}
           keyExtractor={(item) => item.name}
