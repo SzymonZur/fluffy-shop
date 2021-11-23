@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
+  ScrollView,
 } from "react-native";
 
 import CustomHeaderButton from "../components/UI/CustomHeaderButton";
@@ -24,6 +25,7 @@ const HomeScreen = (props) => {
   useEffect(() => {
     setProducts(data);
     setCategories(categoriesData);
+    setProductsCategory(data);
     setActive(-1);
     setInitialState(data);
 
@@ -49,32 +51,51 @@ const HomeScreen = (props) => {
   };
 
   return (
-    <View style={styles.screen}>
-      <View style={styles.headerContainer}>
-        <CustomHeaderButton nameButton="search-outline" actionToDo={() => {}} />
-        <CustomHeaderButton
-          nameButton="options-outline"
-          actionToDo={() => {}}
-        />
-      </View>
-      <View>
-        <CategoryFilter
-          categories={categories}
-          categoriesFilter={changeCategory}
-          productsCtg={prodcutsCategory}
-          active={active}
-          setActive={setActive}
-        />
-      </View>
+    <ScrollView style={{ backgroundColor: "white" }}>
       <View style={styles.screen}>
-        <FlatList
+        <View style={styles.headerContainer}>
+          <CustomHeaderButton
+            nameButton="search-outline"
+            actionToDo={() => {}}
+          />
+          <CustomHeaderButton
+            nameButton="options-outline"
+            actionToDo={() => {}}
+          />
+        </View>
+        <View>
+          <CategoryFilter
+            categories={categories}
+            categoriesFilter={changeCategory}
+            productsCtg={prodcutsCategory}
+            active={active}
+            setActive={setActive}
+          />
+        </View>
+        {prodcutsCategory.length > 0 ? (
+          <View style={styles.listContainer}>
+            {/* <FlatList
           numColumns={2}
           data={products}
           renderItem={({ item }) => <ProductsList key={item.id} item={item} />}
           keyExtractor={(item) => item.name}
-        />
+        /> */}
+            {prodcutsCategory.map((item) => {
+              return <ProductsList key={item._id.$oid} item={item} />;
+            })}
+          </View>
+        ) : (
+          <View
+            style={[
+              styles.screen,
+              { justifyContent: "center", alignItems: "center", height: 300},
+            ]}
+          >
+            <Text style={{fontSize: 18, fontWeight: 'bold'}}>No products found</Text>
+          </View>
+        )}
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -89,6 +110,10 @@ const styles = StyleSheet.create({
     marginTop: 50,
     paddingRight: 15,
   },
+  listContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap'
+  }
 });
 
 export default HomeScreen;
