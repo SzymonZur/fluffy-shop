@@ -4,8 +4,11 @@ import { Ionicons } from "@expo/vector-icons";
 
 const CustomHeaderButton = (props) => {
   return (
-    <TouchableOpacity onPress={props.actionToDo} style={styles.button}>
-      <Ionicons name={props.nameButton} size={20} />
+    <TouchableOpacity
+      onPress={props.actionToDo}
+      style={{ ...styles.button, ...props.style }}
+    >
+      <Ionicons color={props.colorName} name={props.nameButton} size={20} />
     </TouchableOpacity>
   );
 };
