@@ -2,14 +2,30 @@ import React from "react";
 import { Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";
 
 import CartScreen from "../screens/CartScreen";
 import FavoritesProductsScreen from "../screens/FavoritesProductsScreen";
 import HomeScreen from "../screens/HomeScreen";
 import ProfileUserScreen from "../screens/ProfileUserScreen";
+import ProductOverviewScreen from "../screens/ProductOverviewScreen";
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+
+const ProductsNavigator = (props) => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="Product" component={ProductOverviewScreen}/>
+    </Stack.Navigator>
+  );
+};
 
 const ShopNavigator = (props) => {
   return (
@@ -44,7 +60,7 @@ const ShopNavigator = (props) => {
           headerShown: false,
         })}
       >
-        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Home" component={ProductsNavigator} />
         <Tab.Screen name="Cart" component={CartScreen} />
         <Tab.Screen name="Favorites" component={FavoritesProductsScreen} />
         <Tab.Screen name="Profile" component={ProfileUserScreen} />

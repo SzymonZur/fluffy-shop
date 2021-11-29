@@ -11,6 +11,7 @@ import {
 import CustomHeaderButton from "../components/UI/CustomHeaderButton";
 import ProductsList from "../components/Products/ProductsList";
 import CategoryFilter from "../components/Products/CategoryFilter";
+import HeaderComponenet from "../components/UI/HeaderComponent";
 
 const data = require("../assets/data/products.json");
 const categoriesData = require("../assets/data/categories.json");
@@ -53,7 +54,7 @@ const HomeScreen = (props) => {
   return (
     <ScrollView style={{ backgroundColor: "white" }}>
       <View style={styles.screen}>
-        <View style={styles.headerContainer}>
+        <HeaderComponenet style={styles.headerContainer}>
           <CustomHeaderButton
             nameButton="search-outline"
             actionToDo={() => {}}
@@ -62,7 +63,7 @@ const HomeScreen = (props) => {
             nameButton="options-outline"
             actionToDo={() => {}}
           />
-        </View>
+        </HeaderComponenet>
         <View>
           <CategoryFilter
             categories={categories}
@@ -81,17 +82,25 @@ const HomeScreen = (props) => {
           keyExtractor={(item) => item.name}
         /> */}
             {prodcutsCategory.map((item) => {
-              return <ProductsList key={item._id.$oid} item={item} />;
+              return (
+                <ProductsList
+                  key={item._id.$oid}
+                  item={item}
+                  navigation={props.navigation}
+                />
+              );
             })}
           </View>
         ) : (
           <View
             style={[
               styles.screen,
-              { justifyContent: "center", alignItems: "center", height: 300},
+              { justifyContent: "center", alignItems: "center", height: 300 },
             ]}
           >
-            <Text style={{fontSize: 18, fontWeight: 'bold'}}>No products found</Text>
+            <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+              No products found
+            </Text>
           </View>
         )}
       </View>
@@ -105,15 +114,12 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   headerContainer: {
-    flexDirection: "row",
     justifyContent: "flex-end",
-    marginTop: 50,
-    paddingRight: 15,
   },
   listContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap'
-  }
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
 });
 
 export default HomeScreen;
