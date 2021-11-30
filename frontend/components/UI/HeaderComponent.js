@@ -12,7 +12,7 @@ const HeaderComponenet = (props) => {
 const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: "row",
-    marginTop: Platform.OS === "android" ? 25 : 50,
+    marginTop: Platform.OS === "android" ? 25 : 0,
     paddingRight: 15,
   },
 });
