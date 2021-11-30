@@ -2,6 +2,8 @@ import React from "react";
 import { TouchableOpacity, StyleSheet, ScrollView } from "react-native";
 import { ListItem, Badge, Text } from "native-base";
 
+import Colors from "../../constants/Colors";
+
 const CategoryFilter = (props) => {
   return (
     <ScrollView
@@ -61,17 +63,17 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   active: {
-    backgroundColor: "rgba(237, 173, 109, 0.2)",
+    backgroundColor: Colors.activeBg,
   },
   inactive: {
-    backgroundColor: "rgba(125, 125, 125, 0.1)",
+    backgroundColor: Colors.inactiveBg,
   },
   activeFont:{
-    color: "rgba(255, 128, 0, 1.0)",
+    color: Colors.activeFont,
     fontSize: 16
   },
   inactiveFont: {
-    color: "rgba(125, 125, 125, 0.9)",
+    color: Colors.inactiveFont,
     fontSize: 16
   }
 });
