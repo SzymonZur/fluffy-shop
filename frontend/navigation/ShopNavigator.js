@@ -35,7 +35,7 @@ const ShopNavigator = (props) => {
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
 
-            if (route.name === "Home") {
+            if (route.name === "HomeTab") {
               iconName = focused ? "home" : "home-outline";
             }
             if (route.name === "Cart") {
@@ -60,7 +60,7 @@ const ShopNavigator = (props) => {
           headerShown: false,
         })}
       >
-        <Tab.Screen name="Home" component={ProductsNavigator} />
+        <Tab.Screen name="HomeTab" component={ProductsNavigator} />
         <Tab.Screen name="Cart" component={CartScreen} />
         <Tab.Screen name="Favorites" component={FavoritesProductsScreen} />
         <Tab.Screen name="Profile" component={ProfileUserScreen} />
