@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   FlatList,
   ScrollView,
+  SafeAreaView,
 } from "react-native";
 
 import CustomHeaderButton from "../components/UI/CustomHeaderButton";
@@ -54,6 +55,7 @@ const HomeScreen = (props) => {
   return (
     <ScrollView style={{ backgroundColor: "white" }}>
       <View style={styles.screen}>
+        <SafeAreaView>
         <HeaderComponenet style={styles.headerContainer}>
           <CustomHeaderButton
             nameButton="search-outline"
@@ -103,6 +105,7 @@ const HomeScreen = (props) => {
             </Text>
           </View>
         )}
+        </SafeAreaView>
       </View>
     </ScrollView>
   );
