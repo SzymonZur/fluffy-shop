@@ -8,8 +8,7 @@ const reducers = combineReducers({
 })
 
 const store = createStore(
-    reducers, 
-    composeWithDevTools(applyMiddleware(ThunkMiddleware))
+    reducers
 )
 
 export default store;
