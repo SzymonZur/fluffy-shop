@@ -9,11 +9,14 @@ import {
   Platform,
   TouchableOpacity,
   StatusBar,
-  SafeAreaView
+  SafeAreaView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import CustomHeaderButton from "../components/UI/CustomHeaderButton";
 import SizeComponent from "../components/UI/SizeComponent";
+
+import { connect } from "react-redux";
+import * as actions from "../redux/actions/cartActions";
 
 import Colors from "../constants/Colors";
 
@@ -39,7 +42,7 @@ const ProductOverviewScreen = (props) => {
           style={{
             position: "absolute",
             left: 15,
-            top: Platform.OS === 'android' ? 30 : 40,
+            top: Platform.OS === "android" ? 30 : 40,
             backgroundColor: "black",
           }}
         />
@@ -81,7 +84,9 @@ const ProductOverviewScreen = (props) => {
               </Text>
             </View>
           </View>
-          <TouchableOpacity style={styles.addToCart}>
+          <TouchableOpacity style={styles.addToCart} onPress={() => {
+            props.addItemToCart(props.route.params.item)
+          }}>
             <View style={styles.btnContainer}>
               <Ionicons name="cart-outline" size={24} color="white" />
               <Text
@@ -96,6 +101,14 @@ const ProductOverviewScreen = (props) => {
     </View>
   );
 };
+
+const mapDispatchToProps = (dispatch) => {
+  return{
+    addItemToCart: (product) => {
+      dispatch(actions.addToCart({quantity: 1, product}))
+    }
+  }
+}
 
 const styles = StyleSheet.create({
   screen: {
@@ -168,4 +181,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProductOverviewScreen;
+export default connect(null, mapDispatchToProps)(ProductOverviewScreen)

@@ -55,8 +55,8 @@ const HomeScreen = (props) => {
   return (
     <ScrollView style={{ backgroundColor: "white" }}>
       <View style={styles.screen}>
-        <SafeAreaView>
-        <HeaderComponenet style={styles.headerContainer}>
+        <HeaderComponenet style={styles.headerContainer} sectionTitle='Home'>
+          <View style={{flexDirection: 'row'}}>
           <CustomHeaderButton
             nameButton="search-outline"
             actionToDo={() => {}}
@@ -65,6 +65,7 @@ const HomeScreen = (props) => {
             nameButton="options-outline"
             actionToDo={() => {}}
           />
+          </View>
         </HeaderComponenet>
         <View>
           <CategoryFilter
@@ -105,7 +106,6 @@ const HomeScreen = (props) => {
             </Text>
           </View>
         )}
-        </SafeAreaView>
       </View>
     </ScrollView>
   );
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   headerContainer: {
-    justifyContent: "flex-end",
+    justifyContent: "space-between",
   },
   listContainer: {
     flexDirection: "row",

@@ -1,11 +1,11 @@
 import React from "react";
 import { View, Text } from "react-native";
+import HeaderComponenet from "../components/UI/HeaderComponent";
 
 const ProfileUserScreen = (props) => {
   return (
-    <View>
-      <Text>ProfileUserScreen</Text>
-    </View>
+    <HeaderComponenet sectionTitle="User"></HeaderComponenet>
+
   );
 };
 
