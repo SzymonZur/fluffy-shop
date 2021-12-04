@@ -12,7 +12,7 @@ import { Ionicons } from "@expo/vector-icons";
 var { width } = Dimensions.get("window");
 
 const ProductCard = (props) => {
-  const { name, price, image, countInStock } = props;
+  const { name, brand, price, image, countInStock } = props;
   const [favStatus, setFavStatus] = useState(false);
 
   return (
@@ -40,7 +40,7 @@ const ProductCard = (props) => {
       </View>
       <View style={styles.infoContainer}>
         <Text>
-          {name.length > 15 ? name.substring(0, 15 - 3) + "..." : name}
+          {brand} {name.length > 10 ? name.substring(0, 10 - 3) + "..." : name}
         </Text>
         <Text style={{ fontWeight: "bold" }}>${price.toFixed(2)}</Text>
       </View>
