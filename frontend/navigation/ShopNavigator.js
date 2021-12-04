@@ -10,6 +10,7 @@ import FavoritesProductsScreen from "../screens/FavoritesProductsScreen";
 import HomeScreen from "../screens/HomeScreen";
 import ProfileUserScreen from "../screens/ProfileUserScreen";
 import ProductOverviewScreen from "../screens/ProductOverviewScreen";
+import CartIcon from "../components/UI/CartIcon";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -22,7 +23,7 @@ const ProductsNavigator = (props) => {
       }}
     >
       <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="Product" component={ProductOverviewScreen}/>
+      <Stack.Screen name="Product" component={ProductOverviewScreen} />
     </Stack.Navigator>
   );
 };
@@ -39,7 +40,16 @@ const ShopNavigator = (props) => {
               iconName = focused ? "home" : "home-outline";
             }
             if (route.name === "Cart") {
-              iconName = focused ? "cart" : "cart-outline";
+              return (
+                <View>
+                  <Ionicons
+                    name={focused ? "cart" : "cart-outline"}
+                    size={size}
+                    color={color}
+                  />
+                  <CartIcon />
+                </View>
+              );
             }
             if (route.name === "Favorites") {
               iconName = focused ? "heart" : "heart-outline";
@@ -48,7 +58,6 @@ const ShopNavigator = (props) => {
               iconName = focused ? "person" : "person-outline";
             }
 
-            // You can return any component that you like here!
             return <Ionicons name={iconName} size={size} color={color} />;
           },
           tabBarActiveTintColor: "white",
