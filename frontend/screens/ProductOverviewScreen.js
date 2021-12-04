@@ -21,9 +21,9 @@ import * as actions from "../redux/actions/cartActions";
 import Colors from "../constants/Colors";
 
 const ProductOverviewScreen = (props) => {
-  const DATA = ["S", "M", "L", "XL"];
   const [item, setItem] = useState(props.route.params.item);
-  const [active, setActive] = useState();
+  const [active, setActive] = useState(0);
+
 
   return (
     <View style={styles.screen}>
@@ -51,7 +51,7 @@ const ProductOverviewScreen = (props) => {
         <View style={styles.productOverview}>
           <View style={styles.productHeader}>
             <View>
-              <Text style={{ fontSize: 24 }}>{item.name}</Text>
+              <Text style={{ fontSize: 24 }}>{item.brand} {item.name}</Text>
               <Text style={{ fontSize: 12, color: Colors.inactiveFont }}>
                 (Price incl. 23% VAT)
               </Text>
@@ -70,7 +70,7 @@ const ProductOverviewScreen = (props) => {
             >
               Choose size
             </Text>
-            <SizeComponent size={DATA} setActive={setActive} active={active} />
+            <SizeComponent size={item.size} setActive={setActive} active={active} />
           </View>
           <View>
             <View style={styles.detailsComponent}>
@@ -85,7 +85,7 @@ const ProductOverviewScreen = (props) => {
             </View>
           </View>
           <TouchableOpacity style={styles.addToCart} onPress={() => {
-            props.addItemToCart(props.route.params.item)
+            props.addItemToCart({name: item.name, price: item.price, size: item.size[active], image: item.image})
           }}>
             <View style={styles.btnContainer}>
               <Ionicons name="cart-outline" size={24} color="white" />
