@@ -6,6 +6,7 @@ import {
   Image,
   StyleSheet,
   Platform,
+  ScrollView,
 } from "react-native";
 import HeaderComponenet from "../components/UI/HeaderComponent";
 import Colors from "../constants/Colors";
@@ -14,14 +15,13 @@ import { connect } from "react-redux";
 import CustomHeaderButton from "../components/UI/CustomHeaderButton";
 
 const CartScreen = (props) => {
-  console.log(props.cartItems)
   return (
     <View style={styles.screen}>
       <HeaderComponenet sectionTitle="Cart"></HeaderComponenet>
-      <View style={styles.cartContainer}>
+      <ScrollView style={styles.cartContainer}>
         {props.cartItems.map((x) => {
           return (
-            <View style={styles.cartItem}>
+            <View style={styles.cartItem} key={x.product.id}>
               <View style={styles.imageContainer}>
                 <Image
                   source={{ uri: x.product.image }}
@@ -30,13 +30,17 @@ const CartScreen = (props) => {
                 />
               </View>
               <View style={{ flex: 1 }}>
-                <Text style={{ fontSize: 22, fontWeight: "bold" }}>
-                  {x.product.name}
+                <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+                  {x.product.name.length > 12
+                    ? x.product.name.substring(0, 12 - 3) + "..."
+                    : x.product.name}
                 </Text>
                 <Text style={styles.priceFont}>
                   Price: ${x.product.price.toFixed(2)}
                 </Text>
-                <Text style={styles.inactiveFontSize}>Size: {x.product.size}</Text>
+                <Text style={styles.inactiveFontSize}>
+                  Size: {x.product.size}
+                </Text>
                 <Text style={styles.inactiveFontSize}>Color: Black</Text>
                 <View style={styles.quantityContainer}>
                   <CustomHeaderButton
@@ -68,7 +72,7 @@ const CartScreen = (props) => {
             </View>
           );
         })}
-      </View>
+      </ScrollView>
     </View>
   );
 };
@@ -86,9 +90,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   cartContainer: {
-    width: "100%",
-    height: "100%",
-    alignItems: "center",
     padding: 20,
   },
   cartItem: {

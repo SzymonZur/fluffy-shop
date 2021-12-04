@@ -24,7 +24,6 @@ const ProductOverviewScreen = (props) => {
   const [item, setItem] = useState(props.route.params.item);
   const [active, setActive] = useState(0);
 
-
   return (
     <View style={styles.screen}>
       <View style={styles.headerContainer}>
@@ -51,7 +50,9 @@ const ProductOverviewScreen = (props) => {
         <View style={styles.productOverview}>
           <View style={styles.productHeader}>
             <View>
-              <Text style={{ fontSize: 24 }}>{item.brand} {item.name}</Text>
+              <Text style={{ fontSize: 24 }}>
+                {item.brand} {item.name}
+              </Text>
               <Text style={{ fontSize: 12, color: Colors.inactiveFont }}>
                 (Price incl. 23% VAT)
               </Text>
@@ -70,7 +71,11 @@ const ProductOverviewScreen = (props) => {
             >
               Choose size
             </Text>
-            <SizeComponent size={item.size} setActive={setActive} active={active} />
+            <SizeComponent
+              size={item.size}
+              setActive={setActive}
+              active={active}
+            />
           </View>
           <View>
             <View style={styles.detailsComponent}>
@@ -84,9 +89,18 @@ const ProductOverviewScreen = (props) => {
               </Text>
             </View>
           </View>
-          <TouchableOpacity style={styles.addToCart} onPress={() => {
-            props.addItemToCart({name: item.name, price: item.price, size: item.size[active], image: item.image})
-          }}>
+          <TouchableOpacity
+            style={styles.addToCart}
+            onPress={() => {
+              props.addItemToCart({
+                id: item._id.$oid,
+                name: item.name,
+                price: item.price,
+                size: item.size[active],
+                image: item.image,
+              });
+            }}
+          >
             <View style={styles.btnContainer}>
               <Ionicons name="cart-outline" size={24} color="white" />
               <Text
@@ -103,12 +117,12 @@ const ProductOverviewScreen = (props) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return{
+  return {
     addItemToCart: (product) => {
-      dispatch(actions.addToCart({quantity: 1, product}))
-    }
-  }
-}
+      dispatch(actions.addToCart({ quantity: 1, product }));
+    },
+  };
+};
 
 const styles = StyleSheet.create({
   screen: {
@@ -181,4 +195,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null, mapDispatchToProps)(ProductOverviewScreen)
+export default connect(null, mapDispatchToProps)(ProductOverviewScreen);
