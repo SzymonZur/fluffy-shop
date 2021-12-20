@@ -3,6 +3,7 @@ import {
   View,
   Text,
   SafeAreaView,
+  TouchableOpacity,
   Image,
   StyleSheet,
   Platform,
@@ -10,6 +11,7 @@ import {
 } from "react-native";
 import HeaderComponenet from "../components/UI/HeaderComponent";
 import Colors from "../constants/Colors";
+import { Ionicons } from "@expo/vector-icons"
 
 import { connect } from "react-redux";
 import * as actions from "../redux/actions/cartActions";
@@ -102,6 +104,18 @@ const CartScreen = (props) => {
           <Text style={styles.cashViewFont}>Sub Total</Text>
           <Text style={styles.totalFont}>${(total + 50).toFixed(2)}</Text>
         </View>
+        <TouchableOpacity
+            style={styles.addToCart}
+            onPress={() => {props.navigation.navigate('Checkout')}}
+          >
+            <View style={styles.btnContainer}>
+              <Text
+                style={{ marginLeft: 10, fontWeight: "bold", color: "white" }}
+              >
+                Checkout
+              </Text>
+            </View>
+          </TouchableOpacity>
       </View>
     </View>
   );
@@ -171,7 +185,7 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === "android" ? 5 : 10,
   },
   bottomContainer: {
-    height: 150,
+    height: 200,
     backgroundColor: Colors.activeBg,
     borderTopStartRadius: 30,
     borderTopEndRadius: 30,
@@ -189,6 +203,20 @@ const styles = StyleSheet.create({
   totalFont: {
     fontSize: 14,
     fontWeight: "bold",
+  },
+  addToCart: {
+    width: "100%",
+    alignItems: "center",
+    marginTop: 15,
+  },
+  btnContainer: {
+    backgroundColor: Colors.activeFont,
+    width: 300,
+    height: 50,
+    borderRadius: 15,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

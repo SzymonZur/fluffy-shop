@@ -3,6 +3,7 @@ import { Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { Ionicons } from "@expo/vector-icons";
 
 import CartScreen from "../screens/CartScreen";
@@ -10,10 +11,14 @@ import FavoritesProductsScreen from "../screens/FavoritesProductsScreen";
 import HomeScreen from "../screens/HomeScreen";
 import ProfileUserScreen from "../screens/ProfileUserScreen";
 import ProductOverviewScreen from "../screens/ProductOverviewScreen";
+import CheckoutScreen from "../screens/Checkout/CheckoutScreen";
+import PaymentScreen from "../screens/Checkout/PaymentScreen";
+import ConfirmScreen from "../screens/Checkout/ConfirmScreen";
 import CartIcon from "../components/UI/CartIcon";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+const TopTab = createMaterialTopTabNavigator();
 
 const ProductsNavigator = (props) => {
   return (
@@ -25,6 +30,29 @@ const ProductsNavigator = (props) => {
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Product" component={ProductOverviewScreen} />
     </Stack.Navigator>
+  );
+};
+
+const CartNavigator = (props) => {
+  return (
+    <Stack.Navigator
+      screenOptions={({ route }) => ({
+        headerShown: route.name === "Cart" ? false : true,
+      })}
+    >
+      <Stack.Screen name="Cart" component={CartScreen} />
+      <Stack.Screen name="Checkout" component={CheckoutNavigator} />
+    </Stack.Navigator>
+  );
+};
+
+const CheckoutNavigator = (props) => {
+  return (
+    <TopTab.Navigator>
+      <TopTab.Screen name="Shipping" component={CheckoutScreen} />
+      <TopTab.Screen name="Payment" component={PaymentScreen} />
+      <TopTab.Screen name="Confirm" component={ConfirmScreen} />
+    </TopTab.Navigator>
   );
 };
 
@@ -70,7 +98,7 @@ const ShopNavigator = (props) => {
         })}
       >
         <Tab.Screen name="HomeTab" component={ProductsNavigator} />
-        <Tab.Screen name="Cart" component={CartScreen} />
+        <Tab.Screen name="Cart" component={CartNavigator} />
         <Tab.Screen name="Favorites" component={FavoritesProductsScreen} />
         <Tab.Screen name="Profile" component={ProfileUserScreen} />
       </Tab.Navigator>

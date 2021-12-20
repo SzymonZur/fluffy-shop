@@ -78,12 +78,6 @@ const HomeScreen = (props) => {
         </View>
         {prodcutsCategory.length > 0 ? (
           <View style={styles.listContainer}>
-            {/* <FlatList
-          numColumns={2}
-          data={products}
-          renderItem={({ item }) => <ProductsList key={item.id} item={item} />}
-          keyExtractor={(item) => item.name}
-        /> */}
             {prodcutsCategory.map((item) => {
               return (
                 <ProductsList
