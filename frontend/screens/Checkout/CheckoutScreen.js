@@ -4,10 +4,9 @@ import { Item, Picker } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import FormContainer from "../../components/Form/FormContainer";
 import Input from "../../components/Form/Input";
+import CartButton from "../../components/UI/CartButton";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { connect, Connect } from "react-redux";
-
-const countries = require("../../assets/data/countries.json");
 
 const CheckoutScreen = (props) => {
   const [orderItems, setOrderItems] = useState();
@@ -15,7 +14,6 @@ const CheckoutScreen = (props) => {
   const [address2, setAddress2] = useState();
   const [city, setCity] = useState();
   const [zipcode, setZipcode] = useState();
-  const [country, setCountry] = useState();
   const [phone, setPhone] = useState();
 
   useEffect(() => {
@@ -29,7 +27,6 @@ const CheckoutScreen = (props) => {
   const checkout = () => {
     let order = {
       city,
-      country,
       dateOrdered: Date.now(),
       orderItems,
       phone,
@@ -43,6 +40,7 @@ const CheckoutScreen = (props) => {
 
   return (
     <KeyboardAwareScrollView
+      style={{ backgroundColor: "white" }}
       viewIsInsideTabBar={true}
       extraHeight={200}
       enableOnAndroid={true}
@@ -80,31 +78,18 @@ const CheckoutScreen = (props) => {
           keyboardType={"numeric"}
           onChangeText={(text) => setZipcode(text)}
         />
-        <Input
-          placeholder={"Shipping Address 1"}
-          name={"ShippingAddress1"}
-          value={address}
-          onChangeText={(text) => setAddress(text)}
+        <CartButton
+          actionToDo={() => checkout()}
+          isDisabled={
+            address && address2 && city && zipcode && phone ? false : true
+          }
+          style={
+            address && address2 && city && zipcode && phone
+              ? ""
+              : { opacity: 0.2 }
+          }
+          btnText="Confirm"
         />
-        <Item picker>
-          <Picker
-            mode="dropdown"
-            iosIcon={<Ionicons name="search" color="black" />}
-            style={{ width: undefined }}
-            selectedValue={country}
-            placeholder="Select your country"
-            placeholderStyle={{ color: "#007aff" }}
-            placeholderIconColor="#007aff"
-            onValueChange={(e) => setCountry(e)}
-          >
-            {countries.map((c) => {
-              return <Picker.Item key={c.code} label={c.name} value={c.name} />;
-            })}
-          </Picker>
-        </Item>
-        <View style={{ width: "80%", alignItems: "center" }}>
-          <Button title="Confirm" onPress={() => checkout()} />
-        </View>
       </FormContainer>
     </KeyboardAwareScrollView>
   );

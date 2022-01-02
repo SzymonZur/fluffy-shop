@@ -19,16 +19,16 @@ const Input = (props) => {
 };
 
 const styles = StyleSheet.create({
-    input: {
-        width: '80%',
-        height: 60,
-        backgroundColor: 'white',
-        margin: 10,
-        borderRadius: 20,
-        padding: 10,
-        borderWidth: 2,
-        borderColor: 'orange'
-    }
-})
+  input: {
+    fontSize: 16,
+    width: "90%",
+    height: 60,
+    backgroundColor: "white",
+    borderBottomWidth: 1,
+    margin: 10,
+    padding: 10,
+    borderColor: "orange",
+  },
+});
 
 export default Input;

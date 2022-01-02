@@ -11,12 +11,13 @@ import {
 } from "react-native";
 import HeaderComponenet from "../components/UI/HeaderComponent";
 import Colors from "../constants/Colors";
-import { Ionicons } from "@expo/vector-icons"
+import { Ionicons } from "@expo/vector-icons";
 
 import { connect } from "react-redux";
 import * as actions from "../redux/actions/cartActions";
 
 import CustomHeaderButton from "../components/UI/CustomHeaderButton";
+import CartButton from "../components/UI/CartButton";
 
 const CartScreen = (props) => {
   let total = 0;
@@ -26,63 +27,72 @@ const CartScreen = (props) => {
   return (
     <View style={styles.screen}>
       <HeaderComponenet sectionTitle="Cart"></HeaderComponenet>
+
       <ScrollView style={styles.cartContainer}>
-        {props.cartItems.map((x) => {
-          return (
-            <View style={styles.cartItem} key={x.product.id}>
-              <View style={styles.imageContainer}>
-                <Image
-                  source={{ uri: x.product.image }}
-                  resizeMode="cover"
-                  style={styles.cartImage}
-                />
-              </View>
-              <View style={{ flex: 1 }}>
-                <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-                  {x.product.name.length > 12
-                    ? x.product.name.substring(0, 12 - 3) + "..."
-                    : x.product.name}
-                </Text>
-                <Text style={styles.priceFont}>
-                  Price: ${x.product.price.toFixed(2)}
-                </Text>
-                <Text style={styles.inactiveFontSize}>
-                  Size: {x.product.size}
-                </Text>
-                <Text style={styles.inactiveFontSize}>Color: Black</Text>
-                <View style={styles.quantityContainer}>
-                  <CustomHeaderButton
-                    actionToDo={() => props.removeQuantity(x)}
-                    style={styles.headerButton}
-                    sizeIcon={18}
-                    nameButton="remove"
-                    colorName="black"
+        {total !== 0 ? (
+          props.cartItems.map((x) => {
+            return (
+              <View style={styles.cartItem} key={x.product.id}>
+                <View style={styles.imageContainer}>
+                  <Image
+                    source={{ uri: x.product.image }}
+                    resizeMode="cover"
+                    style={styles.cartImage}
                   />
-                  <Text>{x.quantity}</Text>
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+                    {x.product.name.length > 12
+                      ? x.product.name.substring(0, 12 - 3) + "..."
+                      : x.product.name}
+                  </Text>
+                  <Text style={styles.priceFont}>
+                    Price: ${x.product.price.toFixed(2)}
+                  </Text>
+                  <Text style={styles.inactiveFontSize}>
+                    Size: {x.product.size}
+                  </Text>
+                  <Text style={styles.inactiveFontSize}>Color: Black</Text>
+                  <View style={styles.quantityContainer}>
+                    <CustomHeaderButton
+                      actionToDo={() => props.removeQuantity(x)}
+                      style={styles.headerButton}
+                      sizeIcon={18}
+                      nameButton="remove"
+                      colorName="black"
+                    />
+                    <Text>{x.quantity}</Text>
+                    <CustomHeaderButton
+                      actionToDo={() => props.addQuantity(x)}
+                      style={styles.headerButton}
+                      sizeIcon={18}
+                      nameButton="add"
+                      colorName="black"
+                    />
+                  </View>
+                </View>
+                <View style={{ flex: 1, alignItems: "flex-end" }}>
                   <CustomHeaderButton
-                    actionToDo={() => props.addQuantity(x)}
-                    style={styles.headerButton}
+                    actionToDo={() => props.removeFromCart(x)}
+                    style={{
+                      ...styles.headerButton,
+                      backgroundColor: "rgba(255, 0, 0, 0.1)",
+                    }}
                     sizeIcon={18}
-                    nameButton="add"
-                    colorName="black"
+                    nameButton="trash-outline"
+                    colorName="tomato"
                   />
                 </View>
               </View>
-              <View style={{ flex: 1, alignItems: "flex-end" }}>
-                <CustomHeaderButton
-                  actionToDo={() => props.removeFromCart(x)}
-                  style={{
-                    ...styles.headerButton,
-                    backgroundColor: "rgba(255, 0, 0, 0.1)",
-                  }}
-                  sizeIcon={18}
-                  nameButton="trash-outline"
-                  colorName="tomato"
-                />
-              </View>
-            </View>
-          );
-        })}
+            );
+          })
+        ) : (
+          <View style={styles.emptyCart}>
+            <Text style={{ fontSize: 20, color: Colors.inactiveFont }}>
+              Cart is empty
+            </Text>
+          </View>
+        )}
       </ScrollView>
       <View style={styles.bottomContainer}>
         <View style={styles.cashView}>
@@ -104,18 +114,14 @@ const CartScreen = (props) => {
           <Text style={styles.cashViewFont}>Sub Total</Text>
           <Text style={styles.totalFont}>${(total + 50).toFixed(2)}</Text>
         </View>
-        <TouchableOpacity
-            style={styles.addToCart}
-            onPress={() => {props.navigation.navigate('Checkout')}}
-          >
-            <View style={styles.btnContainer}>
-              <Text
-                style={{ marginLeft: 10, fontWeight: "bold", color: "white" }}
-              >
-                Checkout
-              </Text>
-            </View>
-          </TouchableOpacity>
+        <CartButton
+          isDisabled={total !== 0 ? false : true}
+          actionToDo={() => {
+            props.navigation.navigate("Checkout");
+          }}
+          style={total !== 0 ? "" : { opacity: 0.2 }}
+          btnText="Checkout"
+        />
       </View>
     </View>
   );
@@ -143,6 +149,12 @@ const styles = StyleSheet.create({
   },
   cartContainer: {
     padding: 20,
+  },
+  emptyCart: {
+    marginTop: 100,
+    alignItems: "center",
+    justifyContent: "center",
+    height: 200,
   },
   cartItem: {
     width: "100%",
@@ -203,20 +215,6 @@ const styles = StyleSheet.create({
   totalFont: {
     fontSize: 14,
     fontWeight: "bold",
-  },
-  addToCart: {
-    width: "100%",
-    alignItems: "center",
-    marginTop: 15,
-  },
-  btnContainer: {
-    backgroundColor: Colors.activeFont,
-    width: 300,
-    height: 50,
-    borderRadius: 15,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
   },
 });
 
