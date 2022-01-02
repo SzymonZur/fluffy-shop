@@ -13,8 +13,12 @@ const cartItems = (state = [], action) => {
       let actualState;
       state.forEach((x) => {
         if (x.product.id === addedProduct.product.id) {
-          x.quantity += 1;
-          return (actualState = [...state]);
+          if (x.product.size === addedProduct.product.size) {
+            x.quantity += 1;
+            return (actualState = [...state]);
+          } else {
+            return [...state, action.payload];
+          }
         }
       });
       if (actualState) {
