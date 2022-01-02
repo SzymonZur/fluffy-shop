@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { Ionicons } from "@expo/vector-icons";
+import Colors from "../constants/Colors";
 
 import CartScreen from "../screens/CartScreen";
 import FavoritesProductsScreen from "../screens/FavoritesProductsScreen";
@@ -37,10 +38,12 @@ const CartNavigator = (props) => {
   return (
     <Stack.Navigator
       screenOptions={({ route }) => ({
-        headerShown: route.name === "Cart" ? false : true,
+        headerShown: route.name === "CartItems" ? false : true,
+        headerStyle: {backgroundColor: Colors.activeFont},
+        headerTintColor: 'white'
       })}
     >
-      <Stack.Screen name="Cart" component={CartScreen} />
+      <Stack.Screen name="CartItems" component={CartScreen} />
       <Stack.Screen name="Checkout" component={CheckoutNavigator} />
     </Stack.Navigator>
   );
@@ -48,7 +51,7 @@ const CartNavigator = (props) => {
 
 const CheckoutNavigator = (props) => {
   return (
-    <TopTab.Navigator>
+    <TopTab.Navigator screenOptions={{tabBarIndicatorStyle: {backgroundColor: Colors.activeFont}}}>
       <TopTab.Screen name="Shipping" component={CheckoutScreen} />
       <TopTab.Screen name="Payment" component={PaymentScreen} />
       <TopTab.Screen name="Confirm" component={ConfirmScreen} />
