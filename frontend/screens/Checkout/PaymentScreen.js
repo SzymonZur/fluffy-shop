@@ -31,7 +31,6 @@ const paymentCards = [
 
 const PaymentScreen = (props) => {
   const order = props.route.params;
-
   const [selected, setSelected] = useState();
   const [card, setCard] = useState();
   return (
@@ -77,14 +76,27 @@ const PaymentScreen = (props) => {
         ) : null}
         <CartButton
           isDisabled={
-            selected == 1 || selected == 2 || (selected === 3 && card)
+            (selected == 1 || selected == 2 || (selected === 3 && card)) &&
+            order !== undefined
               ? false
               : true
           }
-          style={selected == 1 || selected == 2 || (selected === 3 && card) ? "" : { opacity: 0.2 }}
+          style={
+            (selected == 1 || selected == 2 || (selected === 3 && card)) &&
+            order !== undefined
+              ? ""
+              : { opacity: 0.2 }
+          }
           actionToDo={() => props.navigation.navigate("Confirm", { order })}
           btnText="Confirm"
         />
+        {order !== undefined ? null : (
+          <View style={{ alignItems: "center", marginTop: 5 }}>
+            <Text style={{ color: "red", fontSize: 14 }}>
+              You need to add your shipping address
+            </Text>
+          </View>
+        )}
       </Content>
     </Container>
   );

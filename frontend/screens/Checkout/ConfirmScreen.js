@@ -25,27 +25,48 @@ const ConfirmScreen = (props) => {
         {props.route.params ? (
           <View style={styles.itemContainer}>
             <Text style={styles.title}>Shipping To:</Text>
-            <View style={{ alignItems: 'center', padding: 8}}>
-              <ConfirmText title='Address:' data={confirm.order.order.shippingAddress1} />
-              <ConfirmText title='Address2:' data={confirm.order.order.shippingAddress2} />
-              <ConfirmText title='City:' data={confirm.order.order.city} />
-              <ConfirmText title='Zip Code:' data={confirm.order.order.zipcode} />
+            <View style={{ alignItems: "center", padding: 8 }}>
+              <ConfirmText
+                title="Address:"
+                data={confirm.order.order.shippingAddress1}
+              />
+              <ConfirmText
+                title="Address2:"
+                data={confirm.order.order.shippingAddress2}
+              />
+              <ConfirmText title="City:" data={confirm.order.order.city} />
+              <ConfirmText
+                title="Zip Code:"
+                data={confirm.order.order.zipcode}
+              />
             </View>
             <Text style={styles.title}>Items:</Text>
             {confirm.order.order.orderItems.map((x) => {
               return (
                 <ListItem style={styles.listItem} key={x.product.id} avatar>
-                  <Left >
+                  <Left>
                     <Thumbnail source={{ uri: x.product.image }} />
                   </Left>
                   <Body style={styles.body}>
                     <Left>
-                      <Text style={{fontWeight: 'bold', fontSize: 14}}>{x.product.name}</Text>
-                      <Text style={{fontSize: 14, color: Colors.inactiveFont}}>Size: {x.product.size}</Text>
-                      <Text style={{fontSize: 14, color: Colors.inactiveFont}}>Quantity: {x.quantity}</Text>
+                      <Text style={{ fontWeight: "bold", fontSize: 14 }}>
+                        {x.product.name}
+                      </Text>
+                      <Text
+                        style={{ fontSize: 14, color: Colors.inactiveFont }}
+                      >
+                        Size: {x.product.size}
+                      </Text>
+                      <Text
+                        style={{ fontSize: 14, color: Colors.inactiveFont }}
+                      >
+                        Quantity: {x.quantity}
+                      </Text>
                     </Left>
                     <Right>
-                      <Text style={{fontSize: 14}}>${(x.product.price * x.quantity).toFixed(2)}</Text>
+                      <Text style={{ fontSize: 14 }}>
+                        ${(x.product.price * x.quantity).toFixed(2)}
+                      </Text>
                     </Right>
                   </Body>
                 </ListItem>
@@ -59,6 +80,15 @@ const ConfirmScreen = (props) => {
           actionToDo={confirmOrder}
           btnText="Place Order"
         />
+        {confirm ? (
+          null
+        ) : (
+          <View style={{ alignItems: "center", marginTop: 5, width: "80%" }}>
+            <Text style={{ color: "red", fontSize: 14, textAlign: "center" }}>
+              You need to add your shipping address and payment method
+            </Text>
+          </View>
+        )}
       </View>
     </ScrollView>
   );
@@ -89,23 +119,23 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   itemContainer: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderWidth: 2,
-    borderColor: 'white',
+    borderColor: "white",
     borderRadius: 10,
     marginTop: 15,
     shadowColor: "black",
     shadowOpacity: 0.2,
     shadowOffset: { width: 0, height: 0 },
     shadowRadius: 10,
-    paddingTop: 5
+    paddingTop: 5,
   },
   listItem: {
     alignItems: "center",
     backgroundColor: "white",
     justifyContent: "center",
     width: width / 1.2,
-    margin: 2
+    margin: 2,
   },
   body: {
     marginHorizontal: 20,
