@@ -75,7 +75,16 @@ const PaymentScreen = (props) => {
             })}
           </Picker>
         ) : null}
-        <CartButton actionToDo={() => props.navigation.navigate("Confirm", { order })} btnText='Confirm' />
+        <CartButton
+          isDisabled={
+            selected == 1 || selected == 2 || (selected === 3 && card)
+              ? false
+              : true
+          }
+          style={selected == 1 || selected == 2 || (selected === 3 && card) ? "" : { opacity: 0.2 }}
+          actionToDo={() => props.navigation.navigate("Confirm", { order })}
+          btnText="Confirm"
+        />
       </Content>
     </Container>
   );

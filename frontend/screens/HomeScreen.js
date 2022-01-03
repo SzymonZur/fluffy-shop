@@ -13,6 +13,7 @@ import CustomHeaderButton from "../components/UI/CustomHeaderButton";
 import ProductsList from "../components/Products/ProductsList";
 import CategoryFilter from "../components/Products/CategoryFilter";
 import HeaderComponenet from "../components/UI/HeaderComponent";
+import Colors from "../constants/Colors";
 
 const data = require("../assets/data/products.json");
 const categoriesData = require("../assets/data/categories.json");
@@ -92,10 +93,10 @@ const HomeScreen = (props) => {
           <View
             style={[
               styles.screen,
-              { justifyContent: "center", alignItems: "center", height: 300 },
+              { justifyContent: "center", alignItems: "center", height: 300, marginTop: 100 },
             ]}
           >
-            <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+            <Text style={{ fontSize: 18, fontWeight: "bold", color: Colors.inactiveFont }}>
               No products found
             </Text>
           </View>
