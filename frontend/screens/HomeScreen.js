@@ -9,14 +9,14 @@ import {
   SafeAreaView,
 } from "react-native";
 
+import baseURL from '../assets/common/baseUrl';
+import axios from 'axios';
+
 import CustomHeaderButton from "../components/UI/CustomHeaderButton";
 import ProductsList from "../components/Products/ProductsList";
 import CategoryFilter from "../components/Products/CategoryFilter";
 import HeaderComponenet from "../components/UI/HeaderComponent";
 import Colors from "../constants/Colors";
-
-const data = require("../assets/data/products.json");
-const categoriesData = require("../assets/data/categories.json");
 
 const HomeScreen = (props) => {
   const [products, setProducts] = useState([]);
@@ -26,11 +26,27 @@ const HomeScreen = (props) => {
   const [initialState, setInitialState] = useState([]);
 
   useEffect(() => {
-    setProducts(data);
-    setCategories(categoriesData);
-    setProductsCategory(data);
     setActive(-1);
-    setInitialState(data);
+
+    axios
+      .get(`${baseURL}products`)
+      .then((res) => {
+        setProducts(res.data);
+        setProductsCategory(res.data);
+        setInitialState(res.data);
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
+    axios
+      .get(`${baseURL}categories`)
+      .then((res) => {
+        setCategories(res.data);
+      })
+      .catch((err) => {
+        console.log(err)
+      })
 
     return () => {
       setProducts([]);
@@ -46,7 +62,7 @@ const HomeScreen = (props) => {
         ? [setProductsCategory(initialState), setActive(true)]
         : [
             setProductsCategory(
-              products.filter((arg) => arg.category.$oid === ctg),
+              products.filter((arg) => arg.category === ctg),
               setActive(true)
             ),
           ];
@@ -82,7 +98,7 @@ const HomeScreen = (props) => {
             {prodcutsCategory.map((item) => {
               return (
                 <ProductsList
-                  key={item._id.$oid}
+                  key={item._id}
                   item={item}
                   navigation={props.navigation}
                 />
