@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import {
   View,
   Text,
   StyleSheet,
+  ActivityIndicator,
   TouchableOpacity,
   FlatList,
   ScrollView,
   SafeAreaView,
 } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
 
-import baseURL from '../assets/common/baseUrl';
-import axios from 'axios';
+import baseURL from "../assets/common/baseUrl";
+import axios from "axios";
 
 import CustomHeaderButton from "../components/UI/CustomHeaderButton";
 import ProductsList from "../components/Products/ProductsList";
@@ -24,37 +26,41 @@ const HomeScreen = (props) => {
   const [prodcutsCategory, setProductsCategory] = useState([]);
   const [active, setActive] = useState();
   const [initialState, setInitialState] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    setActive(-1);
+  useFocusEffect(
+    useCallback(() => {
+      setActive(-1);
 
-    axios
-      .get(`${baseURL}products`)
-      .then((res) => {
-        setProducts(res.data);
-        setProductsCategory(res.data);
-        setInitialState(res.data);
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+      axios
+        .get(`${baseURL}products`)
+        .then((res) => {
+          setProducts(res.data);
+          setProductsCategory(res.data);
+          setInitialState(res.data);
+          setLoading(false)
+        })
+        .catch((err) => {
+          console.log(err);
+        });
 
-    axios
-      .get(`${baseURL}categories`)
-      .then((res) => {
-        setCategories(res.data);
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+      axios
+        .get(`${baseURL}categories`)
+        .then((res) => {
+          setCategories(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
 
-    return () => {
-      setProducts([]);
-      setCategories([]);
-      setActive();
-      setInitialState();
-    };
-  }, []);
+      return () => {
+        setProducts([]);
+        setCategories([]);
+        setActive();
+        setInitialState();
+      };
+    }, [])
+  );
 
   const changeCategory = (ctg) => {
     {
@@ -70,55 +76,74 @@ const HomeScreen = (props) => {
   };
 
   return (
-    <ScrollView style={{ backgroundColor: "white" }}>
-      <View style={styles.screen}>
-        <HeaderComponenet style={styles.headerContainer} sectionTitle='Home'>
-          <View style={{flexDirection: 'row'}}>
-          <CustomHeaderButton
-            nameButton="search-outline"
-            actionToDo={() => {}}
-          />
-          <CustomHeaderButton
-            nameButton="options-outline"
-            actionToDo={() => {}}
-          />
-          </View>
-        </HeaderComponenet>
-        <View>
-          <CategoryFilter
-            categories={categories}
-            categoriesFilter={changeCategory}
-            productsCtg={prodcutsCategory}
-            active={active}
-            setActive={setActive}
-          />
-        </View>
-        {prodcutsCategory.length > 0 ? (
-          <View style={styles.listContainer}>
-            {prodcutsCategory.map((item) => {
-              return (
-                <ProductsList
-                  key={item._id}
-                  item={item}
-                  navigation={props.navigation}
+    <>
+    {loading == false ? (
+          <ScrollView style={{ backgroundColor: "white" }}>
+          <View style={styles.screen}>
+            <HeaderComponenet style={styles.headerContainer} sectionTitle="Home">
+              <View style={{ flexDirection: "row" }}>
+                <CustomHeaderButton
+                  nameButton="search-outline"
+                  actionToDo={() => {}}
                 />
-              );
-            })}
+                <CustomHeaderButton
+                  nameButton="options-outline"
+                  actionToDo={() => {}}
+                />
+              </View>
+            </HeaderComponenet>
+            <View>
+              <CategoryFilter
+                categories={categories}
+                categoriesFilter={changeCategory}
+                productsCtg={prodcutsCategory}
+                active={active}
+                setActive={setActive}
+              />
+            </View>
+            {prodcutsCategory.length > 0 ? (
+              <View style={styles.listContainer}>
+                {prodcutsCategory.map((item) => {
+                  return (
+                    <ProductsList
+                      key={item._id}
+                      item={item}
+                      navigation={props.navigation}
+                    />
+                  );
+                })}
+              </View>
+            ) : (
+              <View
+                style={[
+                  styles.screen,
+                  {
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: 300,
+                    marginTop: 100,
+                  },
+                ]}
+              >
+                <Text
+                  style={{
+                    fontSize: 18,
+                    fontWeight: "bold",
+                    color: Colors.inactiveFont,
+                  }}
+                >
+                  No products found
+                </Text>
+              </View>
+            )}
           </View>
-        ) : (
-          <View
-            style={[
-              styles.screen,
-              { justifyContent: "center", alignItems: "center", height: 300, marginTop: 100 },
-            ]}
-          >
-            <Text style={{ fontSize: 18, fontWeight: "bold", color: Colors.inactiveFont }}>
-              No products found
-            </Text>
-          </View>
-        )}
+        </ScrollView>
+    ) : (
+      <View style={[styles.screen, { backgroundColor: '#f2f2f2', justifyContent: 'center', alignItems: 'center'}]}>
+        <ActivityIndicator size='large' color={Colors.activeFont} />
       </View>
-    </ScrollView>
+    )}
+    </>
   );
 };
 

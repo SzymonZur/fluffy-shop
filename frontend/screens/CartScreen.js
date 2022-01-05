@@ -101,7 +101,7 @@ const CartScreen = (props) => {
         </View>
         <View style={styles.cashView}>
           <Text style={styles.cashViewFont}>Delivery fee</Text>
-          <Text style={styles.totalFont}>$50</Text>
+          <Text style={styles.totalFont}>$20</Text>
         </View>
         <View
           style={{
@@ -112,7 +112,7 @@ const CartScreen = (props) => {
         ></View>
         <View style={styles.cashView}>
           <Text style={styles.cashViewFont}>Sub Total</Text>
-          <Text style={styles.totalFont}>${(total + 50).toFixed(2)}</Text>
+          <Text style={styles.totalFont}>${(total + 20).toFixed(2)}</Text>
         </View>
         <CartButton
           isDisabled={total !== 0 ? false : true}
