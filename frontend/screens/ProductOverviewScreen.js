@@ -11,6 +11,7 @@ import {
   StatusBar,
   SafeAreaView,
 } from "react-native";
+import Toast from 'react-native-toast-message';
 import { Ionicons } from "@expo/vector-icons";
 import CustomHeaderButton from "../components/UI/CustomHeaderButton";
 import SizeComponent from "../components/UI/SizeComponent";
@@ -98,7 +99,12 @@ const ProductOverviewScreen = (props) => {
                 price: item.price,
                 size: item.size[active],
                 image: item.image,
-              });
+              }, Toast.show({
+                topOffset: 60,
+                type: 'success',
+                text1: `${item.name} added to Cart`,
+                text2: 'Go to your cart to complete order'
+              }));
             }}
           >
             <View style={styles.btnContainer}>

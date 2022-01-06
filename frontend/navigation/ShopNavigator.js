@@ -15,11 +15,36 @@ import ProductOverviewScreen from "../screens/ProductOverviewScreen";
 import CheckoutScreen from "../screens/Checkout/CheckoutScreen";
 import PaymentScreen from "../screens/Checkout/PaymentScreen";
 import ConfirmScreen from "../screens/Checkout/ConfirmScreen";
+import LoginScreen from "../screens/User/LoginScreen";
+import RegisterScreen from "../screens/User/RegisterScreen";
+import UserProfileScreen from "../screens/User/UserProfileScreen";
 import CartIcon from "../components/UI/CartIcon";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 const TopTab = createMaterialTopTabNavigator();
+
+const UserNavigator = (props) => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Register"
+        component={RegisterScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="User Profile"
+        component={UserProfileScreen}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+};
 
 const ProductsNavigator = (props) => {
   return (
@@ -39,8 +64,8 @@ const CartNavigator = (props) => {
     <Stack.Navigator
       screenOptions={({ route }) => ({
         headerShown: route.name === "CartItems" ? false : true,
-        headerStyle: {backgroundColor: Colors.activeFont},
-        headerTintColor: 'white'
+        headerStyle: { backgroundColor: Colors.activeFont },
+        headerTintColor: "white",
       })}
     >
       <Stack.Screen name="CartItems" component={CartScreen} />
@@ -51,7 +76,11 @@ const CartNavigator = (props) => {
 
 const CheckoutNavigator = (props) => {
   return (
-    <TopTab.Navigator screenOptions={{tabBarIndicatorStyle: {backgroundColor: Colors.activeFont}}}>
+    <TopTab.Navigator
+      screenOptions={{
+        tabBarIndicatorStyle: { backgroundColor: Colors.activeFont },
+      }}
+    >
       <TopTab.Screen name="Shipping" component={CheckoutScreen} />
       <TopTab.Screen name="Payment" component={PaymentScreen} />
       <TopTab.Screen name="Confirm" component={ConfirmScreen} />
@@ -103,7 +132,7 @@ const ShopNavigator = (props) => {
         <Tab.Screen name="HomeTab" component={ProductsNavigator} />
         <Tab.Screen name="Cart" component={CartNavigator} />
         <Tab.Screen name="Favorites" component={FavoritesProductsScreen} />
-        <Tab.Screen name="Profile" component={ProfileUserScreen} />
+        <Tab.Screen name="Profile" component={UserNavigator} />
       </Tab.Navigator>
     </NavigationContainer>
   );
