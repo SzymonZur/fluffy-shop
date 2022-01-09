@@ -15,16 +15,6 @@ router.get(`/`, async (req, res) => {
 
 // Create new complete order (sum price)
 router.post("/", async (req, res) => {
-  const orderItemsIds = Promise.all(
-    req.body.orderItems.map(async (orderItem) => {
-      let newOrderItem = new OrderItem({
-        quantity: orderItem.quantity,
-        product: orderItem.product.id,
-      });
-      newOrderItem = await newOrderItem.save();
-    })
-  );
-
   let order = new Order({
     orderItems: req.body.orderItems,
     shippingAddress1: req.body.shippingAddress1,
