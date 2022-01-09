@@ -94,7 +94,7 @@ const ProductOverviewScreen = (props) => {
             style={styles.addToCart}
             onPress={() => {
               props.addItemToCart({
-                id: item._id.$oid+item.size[active],
+                id: item._id,
                 name: item.name,
                 price: item.price,
                 size: item.size[active],

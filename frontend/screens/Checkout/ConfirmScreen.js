@@ -9,15 +9,42 @@ var { width, height } = Dimensions.get("window");
 import Colors from "../../constants/Colors";
 import ConfirmText from "../../components/UI/ConfirmText";
 
+import Toast from "react-native-toast-message";
+import axios from "axios";
+import baseURL from "../../assets/common/baseUrl";
+
 const ConfirmScreen = (props) => {
+  const confirm = props.route.params;
+
   const confirmOrder = () => {
-    setTimeout(() => {
-      props.clearCart();
-      props.navigation.navigate("CartItems");
-    }, 500);
+    const order = confirm.order.order;
+
+    axios
+      .post(`${baseURL}orders`, order)
+      .then((res) => {
+        if (res.status == 200 || res.status == 201) {
+          Toast.show({
+            topOffset: 60,
+            type: "success",
+            text1: "Order Completed",
+            text2: "Thank You for shopping",
+          });
+          setTimeout(() => {
+            props.clearCart();
+            props.navigation.navigate("CartItems");
+          }, 500);
+        }
+      })
+      .catch((err) => {
+        Toast.show({
+          topOffset: 60,
+          type: "error",
+          text1: "Something went wrong",
+          text2: "Please, try again!",
+        });
+      });
   };
 
-  const confirm = props.route.params;
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.titleContainer}>
@@ -80,9 +107,7 @@ const ConfirmScreen = (props) => {
           actionToDo={confirmOrder}
           btnText="Place Order"
         />
-        {confirm ? (
-          null
-        ) : (
+        {confirm ? null : (
           <View style={{ alignItems: "center", marginTop: 5, width: "80%" }}>
             <Text style={{ color: "red", fontSize: 14, textAlign: "center" }}>
               You need to add your shipping address and payment method

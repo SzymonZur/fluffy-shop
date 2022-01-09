@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Text, View, Button } from "react-native";
 import { Item, Picker } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
@@ -7,22 +7,45 @@ import Input from "../../components/Form/Input";
 import CartButton from "../../components/UI/CartButton";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { connect, Connect } from "react-redux";
+import Toast from 'react-native-toast-message'
+
+import AuthGlobal from "../../context/store/AuthGlobal";
 
 const CheckoutScreen = (props) => {
+  const context = useContext(AuthGlobal)
+
   const [orderItems, setOrderItems] = useState();
   const [address, setAddress] = useState();
   const [address2, setAddress2] = useState();
   const [city, setCity] = useState();
   const [zipcode, setZipcode] = useState();
   const [phone, setPhone] = useState();
+  const [ user, setUser ] = useState();
 
   useEffect(() => {
     setOrderItems(props.cartItems);
+
+    if (context.stateUser.isAuthenticated) {
+      setUser(context.stateUser.user.userId);
+    } else {
+      props.navigation.navigate("Cart");
+            Toast.show({
+                topOffset: 60,
+                type: "error",
+                text1: "Please Login to Checkout",
+                text2: "Tap on login screen"
+            });
+    }
 
     return () => {
       setOrderItems();
     };
   }, []);
+
+  let total = 20;
+  props.cartItems.forEach((cart) => {
+    return (total += cart.product.price * cart.quantity);
+  });
 
   const checkout = () => {
     let order = {
@@ -32,7 +55,10 @@ const CheckoutScreen = (props) => {
       phone,
       shippingAddress1: address,
       shippingAddress2: address2,
-      zipcode,
+      status: 'pending',
+      totalPrice: total.toFixed(2),
+      user,
+      zip: zipcode,
     };
 
     props.navigation.navigate("Payment", { order: order });

@@ -1,13 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 import FormContainer from "../../components/Form/FormContainer";
 import Input from "../.././components/Form/Input";
 import CustomError from "../../components/UI/CustomError";
 
+// Context
+import AuthGlobal from "../../context/store/AuthGlobal";
+import { loginUser } from "../../context/actions/Auth.actions";
+
 const LoginScreen = (props) => {
+  const context = useContext(AuthGlobal);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState('')
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (context.stateUser.isAuthenticated === true) {
+      props.navigation.navigate("User Profile");
+    }
+  }, [context.stateUser.isAuthenticated]);
 
   const handlerSubmit = () => {
     const user = {
@@ -15,10 +26,10 @@ const LoginScreen = (props) => {
       password,
     };
 
-    if(email === '' || password === ''){
-        setError('Please fill in your credentials')
+    if (email === "" || password === "") {
+      setError("Please fill in your credentials");
     } else {
-        setError()
+      loginUser(user, context.dispatch)
     }
   };
 
@@ -40,8 +51,8 @@ const LoginScreen = (props) => {
         value={password}
       />
       <View style={styles.buttonGroup}>
-      {error ? <CustomError message={error} /> : null}
-        <Button title="Login" onPress={() => handlerSubmit()}/>
+        {error ? <CustomError message={error} /> : null}
+        <Button title="Login" onPress={() => handlerSubmit()} />
       </View>
       <View style={styles.buttonGroup}>
         <Button

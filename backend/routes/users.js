@@ -44,7 +44,6 @@ router.post("/login", async (req, res) => {
     res.status(400).send("Password is wrong");
   }
 
-  return res.status(200).send(user);
 });
 
 //register user method -- need to be better

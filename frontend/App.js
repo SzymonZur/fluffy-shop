@@ -6,13 +6,16 @@ import Toast from "react-native-toast-message";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 
+// Context API
+import Auth from "./context/store/Auth";
+
 export default function App() {
   return (
-    <Provider store={store}>
-      <>
-      <ShopNavigator />
-      <Toast />
-      </>
-    </Provider>
+    <Auth>
+      <Provider store={store}>
+        <ShopNavigator />
+        <Toast />
+      </Provider>
+    </Auth>
   );
 }

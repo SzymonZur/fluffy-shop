@@ -3,9 +3,14 @@ const mongoose = require("mongoose");
 const orderSchema = mongoose.Schema({
   orderItems: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "OrderItem",
-      required: true,
+      product: {
+        type: Object,
+        required: true,
+      },
+      quantity: {
+        type: Number,
+        required: true
+      }
     },
   ],
   shippingAddress1: {
@@ -20,10 +25,6 @@ const orderSchema = mongoose.Schema({
     required: true,
   },
   zip: {
-    type: String,
-    required: true,
-  },
-  country: {
     type: String,
     required: true,
   },

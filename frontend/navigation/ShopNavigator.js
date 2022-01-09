@@ -10,7 +10,6 @@ import Colors from "../constants/Colors";
 import CartScreen from "../screens/CartScreen";
 import FavoritesProductsScreen from "../screens/FavoritesProductsScreen";
 import HomeScreen from "../screens/HomeScreen";
-import ProfileUserScreen from "../screens/ProfileUserScreen";
 import ProductOverviewScreen from "../screens/ProductOverviewScreen";
 import CheckoutScreen from "../screens/Checkout/CheckoutScreen";
 import PaymentScreen from "../screens/Checkout/PaymentScreen";
