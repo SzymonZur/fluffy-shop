@@ -38,7 +38,6 @@ const UserProfileScreen = (props) => {
         .get(`${baseURL}orders`)
         .then((x) => {
             const data = x.data;
-            console.log(data)
             const userOrders = data.filter(
                 (order) => order.user._id === context.stateUser.user.sub
             );

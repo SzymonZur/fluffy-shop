@@ -16,7 +16,7 @@ const LoginScreen = (props) => {
 
   useEffect(() => {
     if (context.stateUser.isAuthenticated === true) {
-      props.navigation.navigate("User Profile");
+      props.navigation.navigate("Auth");
     }
   }, [context.stateUser.isAuthenticated]);
 

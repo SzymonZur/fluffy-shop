@@ -25,23 +25,25 @@ const TopTab = createMaterialTopTabNavigator();
 
 const UserNavigator = (props) => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Login"
-        component={LoginScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="Register"
-        component={RegisterScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="User Profile"
-        component={UserProfileScreen}
-        options={{ headerShown: false }}
-      />
-    </Stack.Navigator>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Register"
+          component={RegisterScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Auth"
+          component={ShopNavigator}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
@@ -89,7 +91,6 @@ const CheckoutNavigator = (props) => {
 
 const ShopNavigator = (props) => {
   return (
-    <NavigationContainer>
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
@@ -131,10 +132,9 @@ const ShopNavigator = (props) => {
         <Tab.Screen name="HomeTab" component={ProductsNavigator} />
         <Tab.Screen name="Cart" component={CartNavigator} />
         <Tab.Screen name="Favorites" component={FavoritesProductsScreen} />
-        <Tab.Screen name="Profile" component={UserNavigator} />
+        <Tab.Screen name="Profile" component={UserProfileScreen} />
       </Tab.Navigator>
-    </NavigationContainer>
   );
 };
 
-export default ShopNavigator;
+export default UserNavigator;
