@@ -1,8 +1,10 @@
 import React, { useEffect, useState, useContext } from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, Text, StyleSheet, Button, Image } from "react-native";
 import FormContainer from "../../components/Form/FormContainer";
 import Input from "../.././components/Form/Input";
 import CustomError from "../../components/UI/CustomError";
+import CartButton from "../../components/UI/CartButton";
+import Colors from "../../constants/Colors";
 
 // Context
 import AuthGlobal from "../../context/store/AuthGlobal";
@@ -29,38 +31,53 @@ const LoginScreen = (props) => {
     if (email === "" || password === "") {
       setError("Please fill in your credentials");
     } else {
-      loginUser(user, context.dispatch)
+      loginUser(user, context.dispatch);
     }
   };
 
   return (
-    <FormContainer title="Login">
-      <Input
-        placeholder="Enter Email"
-        name="email"
-        id="email"
-        value={email}
-        onChangeText={(text) => setEmail(text.toLowerCase())}
+    <View
+      style={{
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "white",
+        flex: 1,
+      }}
+    >
+      <Image
+        source={require("../../assets/logo.png")}
+        style={{ width: 320, height: 140, marginTop: 120 }}
       />
-      <Input
-        placeholder="Enter Password"
-        name="password"
-        id="password"
-        onChangeText={(passwd) => setPassword(passwd)}
-        secureTextEntry={true}
-        value={password}
-      />
-      <View style={styles.buttonGroup}>
-        {error ? <CustomError message={error} /> : null}
-        <Button title="Login" onPress={() => handlerSubmit()} />
-      </View>
-      <View style={styles.buttonGroup}>
-        <Button
-          title="Register"
-          onPress={() => props.navigation.navigate("Register")}
+      <FormContainer style={{marginTop: 15}}>
+        <Input
+          placeholder="Enter Email"
+          name="email"
+          id="email"
+          value={email}
+          onChangeText={(text) => setEmail(text.toLowerCase())}
         />
-      </View>
-    </FormContainer>
+        <Input
+          placeholder="Enter Password"
+          name="password"
+          id="password"
+          onChangeText={(passwd) => setPassword(passwd)}
+          secureTextEntry={true}
+          value={password}
+        />
+          {error ? <CustomError message={error} /> : null}
+          <CartButton btnText="Login" actionToDo={() => handlerSubmit()} style={{marginTop: 30}}/>
+          <CartButton
+            btnText="Register"
+            actionToDo={() => props.navigation.navigate("Register")}
+            style={{
+              backgroundColor: "white",
+              borderColor: Colors.activeFont,
+              borderWidth: 1,
+            }}
+            colorText={{ color: Colors.activeFont }}
+          />
+      </FormContainer>
+    </View>
   );
 };
 

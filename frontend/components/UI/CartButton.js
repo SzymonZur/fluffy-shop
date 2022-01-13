@@ -10,7 +10,7 @@ const CartButton = (props) => {
       onPress={props.actionToDo}
     >
       <View style={{ ...styles.btnContainer, ...props.style }}>
-        <Text style={{ marginLeft: 10, fontWeight: "bold", color: "white" }}>
+        <Text style={{ marginLeft: 10, fontWeight: "bold", color: "white", ...props.colorText }}>
           {props.btnText}
         </Text>
       </View>
