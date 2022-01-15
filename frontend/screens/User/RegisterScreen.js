@@ -5,9 +5,12 @@ import Input from "../../components/Form/Input";
 import CustomError from "../../components/UI/CustomError";
 import Toast from "react-native-toast-message";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { LinearGradient } from "expo-linear-gradient";
 
 import axios from "axios";
 import baseURL from "../../assets/common/baseUrl";
+import CartButton from "../../components/UI/CartButton";
+import Colors from "../../constants/Colors";
 
 const RegisterScreen = (props) => {
   const [email, setEmail] = useState("");
@@ -56,56 +59,70 @@ const RegisterScreen = (props) => {
   };
 
   return (
+
     <KeyboardAwareScrollView
       viewIsInsideTabBar={true}
       extraHeight={200}
       enableOnAndroid={true}
+      style={{ flex: 1, backgroundColor: "white" }}
     >
-      <FormContainer title="Register">
-        <Input
-          placeholder="Email"
-          name="email"
-          id="email"
-          onChangeText={(text) => setEmail(text.toLowerCase())}
-        />
-        <Input
-          placeholder="Name"
-          name="name"
-          id="name"
-          onChangeText={(text) => setName(text)}
-        />
-        <Input
-          placeholder="Phone"
-          name="phone"
-          id="phone"
-          keyboardType="numeric"
-          onChangeText={(number) => setPhone(number)}
-        />
-        <Input
-          placeholder="Password"
-          name="password"
-          id="password"
-          secureTextEntry={true}
-          onChangeText={(passwd) => setPassword(passwd)}
-        />
-        <Input
-          placeholder="Password2"
-          name="password2"
-          id="password2"
-          secureTextEntry={true}
-          onChangeText={(passwd) => setPassword2(passwd)}
-        />
-        <View style={styles.buttonGroup}>
-          {error ? <CustomError message={error} /> : null}
-          <Button title="Register" onPress={() => handlerSubmit()} />
-        </View>
-        <View style={styles.buttonGroup}>
-          <Button
-            title="Back To login"
-            onPress={() => props.navigation.navigate("Login")}
+          <LinearGradient
+    // Background Linear Gradient
+    colors={['white', Colors.activeFont]}
+    locations={[0.2, 0.01]}
+    style={{flex: 1, alignItems: 'center'}}
+  >
+      <View style={{ flex: 1, marginTop: 110 }}>
+
+        <FormContainer title="Register">
+          <Input
+            placeholder="Email"
+            name="email"
+            id="email"
+            onChangeText={(text) => setEmail(text.toLowerCase())}
           />
-        </View>
-      </FormContainer>
+          <Input
+            placeholder="Name"
+            name="name"
+            id="name"
+            onChangeText={(text) => setName(text)}
+          />
+          <Input
+            placeholder="Phone"
+            name="phone"
+            id="phone"
+            keyboardType="numeric"
+            onChangeText={(number) => setPhone(number)}
+          />
+          <Input
+            placeholder="Password"
+            name="password"
+            id="password"
+            secureTextEntry={true}
+            onChangeText={(passwd) => setPassword(passwd)}
+          />
+          <Input
+            placeholder="Password2"
+            name="password2"
+            id="password2"
+            secureTextEntry={true}
+            onChangeText={(passwd) => setPassword2(passwd)}
+          />
+          {error ? <CustomError message={error} /> : null}
+          <CartButton btnText="Register" actionToDo={() => handlerSubmit()} />
+          <CartButton
+            btnText="Back to login"
+            actionToDo={() => props.navigation.navigate("Login")}
+            style={{
+              backgroundColor: "white",
+              borderColor: Colors.activeFont,
+              borderWidth: 1,
+            }}
+            colorText={{ color: Colors.activeFont }}
+          />
+        </FormContainer>
+      </View>
+      </LinearGradient>
     </KeyboardAwareScrollView>
   );
 };

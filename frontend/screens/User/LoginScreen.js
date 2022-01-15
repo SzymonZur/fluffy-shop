@@ -5,6 +5,7 @@ import Input from "../.././components/Form/Input";
 import CustomError from "../../components/UI/CustomError";
 import CartButton from "../../components/UI/CartButton";
 import Colors from "../../constants/Colors";
+import { LinearGradient } from "expo-linear-gradient";
 
 // Context
 import AuthGlobal from "../../context/store/AuthGlobal";
@@ -44,11 +45,17 @@ const LoginScreen = (props) => {
         flex: 1,
       }}
     >
+      <LinearGradient
+        // Background Linear Gradient
+        colors={['white', Colors.activeFont]}
+        locations={[0.75, 1.0]}
+        style={{flex: 1, alignItems: 'center'}}
+      >
       <Image
         source={require("../../assets/logo.png")}
-        style={{ width: 320, height: 140, marginTop: 120 }}
+        style={{ width: 320, height: 140, marginTop: 120, marginRight: 20 }}
       />
-      <FormContainer style={{marginTop: 15}}>
+      <FormContainer style={{ marginTop: 15 }}>
         <Input
           placeholder="Enter Email"
           name="email"
@@ -64,19 +71,24 @@ const LoginScreen = (props) => {
           secureTextEntry={true}
           value={password}
         />
-          {error ? <CustomError message={error} /> : null}
-          <CartButton btnText="Login" actionToDo={() => handlerSubmit()} style={{marginTop: 30}}/>
-          <CartButton
-            btnText="Register"
-            actionToDo={() => props.navigation.navigate("Register")}
-            style={{
-              backgroundColor: "white",
-              borderColor: Colors.activeFont,
-              borderWidth: 1,
-            }}
-            colorText={{ color: Colors.activeFont }}
-          />
+        {error ? <CustomError message={error} /> : null}
+        <CartButton
+          btnText="Login"
+          actionToDo={() => handlerSubmit()}
+          style={{ marginTop: 30 }}
+        />
+        <CartButton
+          btnText="Register"
+          actionToDo={() => props.navigation.navigate("Register")}
+          style={{
+            backgroundColor: "white",
+            borderColor: Colors.activeFont,
+            borderWidth: 1,
+          }}
+          colorText={{ color: Colors.activeFont }}
+        />
       </FormContainer>
+      </LinearGradient>
     </View>
   );
 };
