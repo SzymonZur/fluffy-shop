@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useCallback } from "react";
 import {
   View,
   StyleSheet,
@@ -13,39 +13,36 @@ import axios from "axios";
 import baseURL from "../../assets/common/baseUrl";
 import Toast from "react-native-toast-message";
 import AuthGlobal from "../../context/store/AuthGlobal";
+import { useFocusEffect } from "@react-navigation/native";
 
 var { width } = Dimensions.get("window");
 
 const ProductCard = (props) => {
   const { name, brand, price, image } = props;
-
+  const [favStatus, setFavStatus] = useState();
   const context = useContext(AuthGlobal);
   const product = {
     productId: props._id,
     userId: context.stateUser.user.userId,
   };
 
-  const isFav = () => {
-   axios
-    .get(`${baseURL}FavoriteProducts/get/favlist/${product.userId}/${product.productId}`)
-    .then((res) => {
-      if (res.status == 200 || res.status == 201) {
-        console.log(res.data)
-      }
-    })
-    .catch((err) => {
-      Toast.show({
-        topOffset: 60,
-        type: "error",
-        text1: "Something went wrong",
-        text2: "Please, try again!",
-      });
-      throw([err])
-    });
-  }
-  const sometgin = isFav()
-  const [favStatus, setFavStatus] = useState(isFav);
-  console.log(sometgin)
+  useFocusEffect(
+    useCallback(() => {
+      axios
+        .get(
+          `${baseURL}FavoriteProducts/get/favlist/${product.userId}/${product.productId}`
+        )
+        .then((x) => {
+          const data = x.data;
+          setFavStatus(data);
+        })
+        .catch((error) => console.log(error));
+
+      return () => {
+        setFavStatus();
+      };
+    }, [])
+  );
 
   const setFavorite = () => {
     if (!favStatus) {
