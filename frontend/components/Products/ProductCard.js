@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   StyleSheet,
@@ -9,11 +9,82 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
+import axios from "axios";
+import baseURL from "../../assets/common/baseUrl";
+import Toast from "react-native-toast-message";
+import AuthGlobal from "../../context/store/AuthGlobal";
+
 var { width } = Dimensions.get("window");
 
 const ProductCard = (props) => {
-  const { name, brand, price, image, countInStock } = props;
-  const [favStatus, setFavStatus] = useState(false);
+  const { name, brand, price, image } = props;
+
+  const context = useContext(AuthGlobal);
+  const product = {
+    productId: props._id,
+    userId: context.stateUser.user.userId,
+  };
+
+  const isFav = () => {
+   axios
+    .get(`${baseURL}FavoriteProducts/get/favlist/${product.userId}/${product.productId}`)
+    .then((res) => {
+      if (res.status == 200 || res.status == 201) {
+        console.log(res.data)
+      }
+    })
+    .catch((err) => {
+      Toast.show({
+        topOffset: 60,
+        type: "error",
+        text1: "Something went wrong",
+        text2: "Please, try again!",
+      });
+      throw([err])
+    });
+  }
+  const sometgin = isFav()
+  const [favStatus, setFavStatus] = useState(isFav);
+  console.log(sometgin)
+
+  const setFavorite = () => {
+    if (!favStatus) {
+      axios
+        .post(`${baseURL}FavoriteProducts`, product)
+        .then((res) => {
+          if (res.status == 200 || res.status == 201) {
+            Toast.show({
+              topOffset: 60,
+              type: "success",
+              text1: "Product is favorite",
+              text2: "You can see item in Favorite section",
+            });
+          }
+        })
+        .catch((err) => {
+          Toast.show({
+            topOffset: 60,
+            type: "error",
+            text1: "Something went wrong",
+            text2: "Please, try again!",
+          });
+        });
+      setFavStatus((status) => !status);
+    } else {
+      axios.delete(
+        `${baseURL}FavoriteProducts/removeFavorite/${product.userId}/${product.productId}`,
+        product
+      );
+      Toast.show({
+        topOffset: 60,
+        type: "info",
+        text1: "Product is no longer favorite",
+        text2: "You can't see item in Favorite section",
+      });
+
+      setFavStatus((status) => !status);
+    }
+  };
 
   return (
     <View style={styles.cardContainer}>
@@ -27,10 +98,7 @@ const ProductCard = (props) => {
               : "https://images.unsplash.com/photo-1465198901163-2d15b88fecea?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
           }}
         />
-        <TouchableOpacity
-          onPress={() => setFavStatus((status) => !status)}
-          style={styles.iconFavorite}
-        >
+        <TouchableOpacity onPress={setFavorite} style={styles.iconFavorite}>
           <Ionicons
             name={favStatus ? "heart" : "heart-outline"}
             size={25}
