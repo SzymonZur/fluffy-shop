@@ -2,6 +2,19 @@ const { FavoriteProducts } = require("../models/favoriteProducts");
 const express = require("express");
 const router = express.Router();
 
+// getting a res if it is favorite products for actual user and populate with data product
+router.get(`/get/favlist/:userid`, async (req, res) => {
+  const favoriteProductsList = await FavoriteProducts.find({
+    user: req.params.userid
+  }).populate('product')
+
+  if (!favoriteProductsList) {
+    res.status(500).json({ success: false });
+  }
+
+  res.send(favoriteProductsList)
+});
+
 // getting a res if it is favorite products for actual user
 router.get(`/get/favlist/:userid/:productid`, async (req, res) => {
   const favoriteProductsList = await FavoriteProducts.findOne({
@@ -30,7 +43,7 @@ router.post("/", async (req, res) => {
   res.send(favoriteProducts);
 });
 
-// getting a list of favorites products for actual user
+// deleting product from favorites products for actual user
 router.delete(`/removeFavorite/:userid/:productid`, async (req, res) => {
   const favoriteProductsList = await FavoriteProducts.findOne({
     user: req.params.userid,
