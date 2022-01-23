@@ -81,16 +81,6 @@ const HomeScreen = (props) => {
           <ScrollView style={{ backgroundColor: "white" }}>
           <View style={styles.screen}>
             <HeaderComponenet style={styles.headerContainer} sectionTitle="Home">
-              <View style={{ flexDirection: "row" }}>
-                <CustomHeaderButton
-                  nameButton="search-outline"
-                  actionToDo={() => {}}
-                />
-                <CustomHeaderButton
-                  nameButton="options-outline"
-                  actionToDo={() => {}}
-                />
-              </View>
             </HeaderComponenet>
             <View>
               <CategoryFilter

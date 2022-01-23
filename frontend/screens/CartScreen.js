@@ -32,7 +32,7 @@ const CartScreen = (props) => {
         {total !== 0 ? (
           props.cartItems.map((x) => {
             return (
-              <View style={styles.cartItem} key={x.product.id}>
+              <View style={styles.cartItem} key={x.product.id+x.product.size}>
                 <View style={styles.imageContainer}>
                   <Image
                     source={{ uri: x.product.image }}

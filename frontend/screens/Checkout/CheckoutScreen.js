@@ -7,12 +7,12 @@ import Input from "../../components/Form/Input";
 import CartButton from "../../components/UI/CartButton";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { connect, Connect } from "react-redux";
-import Toast from 'react-native-toast-message'
+import Toast from "react-native-toast-message";
 
 import AuthGlobal from "../../context/store/AuthGlobal";
 
 const CheckoutScreen = (props) => {
-  const context = useContext(AuthGlobal)
+  const context = useContext(AuthGlobal);
 
   const [orderItems, setOrderItems] = useState();
   const [address, setAddress] = useState();
@@ -20,7 +20,7 @@ const CheckoutScreen = (props) => {
   const [city, setCity] = useState();
   const [zipcode, setZipcode] = useState();
   const [phone, setPhone] = useState();
-  const [ user, setUser ] = useState();
+  const [user, setUser] = useState();
 
   useEffect(() => {
     setOrderItems(props.cartItems);
@@ -29,12 +29,12 @@ const CheckoutScreen = (props) => {
       setUser(context.stateUser.user.userId);
     } else {
       props.navigation.navigate("Cart");
-            Toast.show({
-                topOffset: 60,
-                type: "error",
-                text1: "Please Login to Checkout",
-                text2: "Tap on login screen"
-            });
+      Toast.show({
+        topOffset: 60,
+        type: "error",
+        text1: "Please Login to Checkout",
+        text2: "Tap on login screen",
+      });
     }
 
     return () => {
@@ -55,7 +55,7 @@ const CheckoutScreen = (props) => {
       phone,
       shippingAddress1: address,
       shippingAddress2: address2,
-      status: 'pending',
+      status: "ordered",
       totalPrice: total.toFixed(2),
       user,
       zip: zipcode,
@@ -80,22 +80,22 @@ const CheckoutScreen = (props) => {
           onChangeText={(text) => setPhone(text)}
         />
         <Input
-          placeholder={"Shipping Address 1"}
+          placeholder={"City"}
+          name={"city"}
+          value={city}
+          onChangeText={(text) => setCity(text)}
+        />
+        <Input
+          placeholder={"Street"}
           name={"ShippingAddress1"}
           value={address}
           onChangeText={(text) => setAddress(text)}
         />
         <Input
-          placeholder={"Shipping Address 2"}
+          placeholder={"Apartment Number"}
           name={"ShippingAddress2"}
           value={address2}
           onChangeText={(text) => setAddress2(text)}
-        />
-        <Input
-          placeholder={"City"}
-          name={"city"}
-          value={city}
-          onChangeText={(text) => setCity(text)}
         />
         <Input
           placeholder={"Zip Code"}

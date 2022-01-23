@@ -23,7 +23,7 @@ router.get(`/get/favlist/:userid/:productid`, async (req, res) => {
   });
 
   if (!favoriteProductsList) {
-    res.send(false)
+    return res.status(200).send(false);
   }
 
   res.send(true)

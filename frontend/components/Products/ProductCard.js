@@ -36,7 +36,9 @@ const ProductCard = (props) => {
           const data = x.data;
           setFavStatus(data);
         })
-        .catch((error) => console.log(error));
+        .catch((err) => {
+          console.log(err);
+        });
 
       return () => {
         setFavStatus();

@@ -44,7 +44,6 @@ const ConfirmScreen = (props) => {
         });
       });
   };
-
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.titleContainer}>
@@ -54,23 +53,23 @@ const ConfirmScreen = (props) => {
             <Text style={styles.title}>Shipping To:</Text>
             <View style={{ alignItems: "center", padding: 8 }}>
               <ConfirmText
-                title="Address:"
+                title="Steet:"
                 data={confirm.order.order.shippingAddress1}
               />
               <ConfirmText
-                title="Address2:"
+                title="Apartment Number:"
                 data={confirm.order.order.shippingAddress2}
               />
               <ConfirmText title="City:" data={confirm.order.order.city} />
               <ConfirmText
                 title="Zip Code:"
-                data={confirm.order.order.zipcode}
+                data={confirm.order.order.zip}
               />
             </View>
             <Text style={styles.title}>Items:</Text>
             {confirm.order.order.orderItems.map((x) => {
               return (
-                <ListItem style={styles.listItem} key={x.product.id} avatar>
+                <ListItem style={styles.listItem} key={x.product.id+x.product.size} avatar>
                   <Left>
                     <Thumbnail source={{ uri: x.product.image }} />
                   </Left>
