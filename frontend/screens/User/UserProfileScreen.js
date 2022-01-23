@@ -16,6 +16,7 @@ import HeaderComponent from "../../components/UI/HeaderComponent";
 import Colors from "../../constants/Colors";
 import { LinearGradient } from "expo-linear-gradient";
 import ConfirmText from "../../components/UI/ConfirmText";
+import { Toast } from "react-native-toast-message/lib/src/Toast";
 
 import axios from "axios";
 import baseURL from "../../assets/common/baseUrl";
@@ -32,6 +33,9 @@ const UserProfileScreen = (props) => {
   const [profileModalVisible, setProfileModalVisible] = useState(false);
   const [passwordModalVisible, setPasswordModalVisible] = useState(false);
   const [ordersModalVisible, setOrdersModalVisible] = useState(false);
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [newPassword2, setNewPassword2] = useState("");
 
   useFocusEffect(
     useCallback(() => {
@@ -69,6 +73,35 @@ const UserProfileScreen = (props) => {
       };
     }, [context.stateUser.isAuthenticated])
   );
+
+  const changePasswordHandler = () => {
+    const email = userProfile.email;
+    axios
+      .put(`${baseURL}users/changePassword`, {
+        email,
+        oldPassword,
+        newPassword,
+        newPassword2,
+      })
+      .then((x) => {
+        Toast.show({
+          topOffset: 60,
+          type: "success",
+          text1: "Password changed",
+          text2: "You can log in with new password",
+        });
+        setPasswordModalVisible(false);
+      })
+      .catch((error) => {
+        Toast.show({
+          topOffset: 60,
+          type: "error",
+          text1: "Something went wrong",
+          text2: "Please, try again",
+        });
+        setPasswordModalVisible(false);
+      });
+  };
   return (
     <LinearGradient
       // Background Linear Gradient
@@ -130,26 +163,32 @@ const UserProfileScreen = (props) => {
             <FormContainer style={{ marginTop: 0 }}>
               <Input
                 placeholder="Enter your current password"
-                name="email"
-                id="email"
+                name="oldPassword"
+                id="oldPassword"
                 secureTextEntry={true}
+                value={oldPassword}
+                onChangeText={(text) => setOldPassword(text)}
               />
               <Input
                 placeholder="Enter your new password"
-                name="password"
-                id="password"
+                name="newPassword"
+                id="newPassword"
                 secureTextEntry={true}
+                value={newPassword}
+                onChangeText={(text) => setNewPassword(text)}
               />
               <Input
                 placeholder="Confirm your new password"
-                name="password"
-                id="password"
+                name="newPassword2"
+                id="newPassword2"
                 secureTextEntry={true}
+                value={newPassword2}
+                onChangeText={(text) => setNewPassword2(text)}
               />
             </FormContainer>
             <TouchableOpacity
               style={{ ...styles.userHeader, marginTop: 40 }}
-              onPress={() => setPasswordModalVisible(false)}
+              onPress={changePasswordHandler}
             >
               <Text style={{ fontSize: 30, color: "white" }}>Confirm</Text>
             </TouchableOpacity>

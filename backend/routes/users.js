@@ -43,7 +43,30 @@ router.post("/login", async (req, res) => {
   } else {
     res.status(400).send("Password is wrong");
   }
+});
 
+router.put("/changePassword/", async (req, res) => {
+  const user = await User.findOne({ email: req.body.email });
+  if (!user) {
+    res.status(400).send("The user not found");
+  }
+
+  if (user && bcrypt.compareSync(req.body.oldPassword, user.passwordHash)) {
+    if (req.body.newPassword === req.body.newPassword2 && req.body.newPassword !== '') {
+      if (req.body.newPassword.length > 6) {
+        console.log(user);
+        User.updateOne({'email': req.body.email}, {passwordHash: bcrypt.hashSync(req.body.newPassword, 10)}, function() {
+          res.send(user);
+        })
+      } else {
+        res.status(500).json({success: false})
+      }
+    } else {
+      res.status(500).json({success: false})      
+    }
+  } else {
+    res.status(500).json({success: false})
+  }
 });
 
 //register user method -- need to be better
