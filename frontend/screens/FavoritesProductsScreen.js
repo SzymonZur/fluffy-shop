@@ -8,9 +8,7 @@ import {
 } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 
-import CustomHeaderButton from "../components/UI/CustomHeaderButton";
 import ProductsList from "../components/Products/ProductsList";
-import CategoryFilter from "../components/Products/CategoryFilter";
 import HeaderComponenet from "../components/UI/HeaderComponent";
 import Colors from "../constants/Colors";
 

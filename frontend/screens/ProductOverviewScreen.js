@@ -1,5 +1,4 @@
-import { Button } from "native-base";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   View,
   ScrollView,
@@ -8,8 +7,6 @@ import {
   Image,
   Platform,
   TouchableOpacity,
-  StatusBar,
-  SafeAreaView,
 } from "react-native";
 import Toast from 'react-native-toast-message';
 import { Ionicons } from "@expo/vector-icons";

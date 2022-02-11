@@ -1,12 +1,9 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Text, View, Button } from "react-native";
-import { Item, Picker } from "native-base";
-import { Ionicons } from "@expo/vector-icons";
 import FormContainer from "../../components/Form/FormContainer";
 import Input from "../../components/Form/Input";
 import CartButton from "../../components/UI/CartButton";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { connect, Connect } from "react-redux";
+import { connect } from "react-redux";
 import Toast from "react-native-toast-message";
 
 import AuthGlobal from "../../context/store/AuthGlobal";

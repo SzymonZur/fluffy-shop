@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Dimensions, ScrollView, Button } from "react-native";
+import { View, StyleSheet, Dimensions, ScrollView } from "react-native";
 import { Text, Left, Right, ListItem, Thumbnail, Body } from "native-base";
 import CartButton from "../../components/UI/CartButton";
 import { connect } from "react-redux";

@@ -2,8 +2,6 @@ import React from "react";
 import {
   View,
   Text,
-  SafeAreaView,
-  TouchableOpacity,
   Image,
   StyleSheet,
   Platform,
@@ -11,7 +9,6 @@ import {
 } from "react-native";
 import HeaderComponenet from "../components/UI/HeaderComponent";
 import Colors from "../constants/Colors";
-import { Ionicons } from "@expo/vector-icons";
 
 import { connect } from "react-redux";
 import * as actions from "../redux/actions/cartActions";

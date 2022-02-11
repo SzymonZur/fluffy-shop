@@ -4,17 +4,13 @@ import {
   Text,
   StyleSheet,
   ActivityIndicator,
-  TouchableOpacity,
-  FlatList,
   ScrollView,
-  SafeAreaView,
 } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 
 import baseURL from "../assets/common/baseUrl";
 import axios from "axios";
 
-import CustomHeaderButton from "../components/UI/CustomHeaderButton";
 import ProductsList from "../components/Products/ProductsList";
 import CategoryFilter from "../components/Products/CategoryFilter";
 import HeaderComponenet from "../components/UI/HeaderComponent";

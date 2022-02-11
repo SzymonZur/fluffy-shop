@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, View, StyleSheet, Button } from "react-native";
+import { View, StyleSheet } from "react-native";
 import FormContainer from "../../components/Form/FormContainer";
 import Input from "../../components/Form/Input";
 import CustomError from "../../components/UI/CustomError";

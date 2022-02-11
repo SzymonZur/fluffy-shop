@@ -3,19 +3,16 @@ import {
   View,
   Text,
   ScrollView,
-  Button,
   StyleSheet,
   TouchableOpacity,
   Modal,
 } from "react-native";
-import { Container } from "native-base";
 import { useFocusEffect } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CartButton from "../../components/UI/CartButton";
 import HeaderComponent from "../../components/UI/HeaderComponent";
 import Colors from "../../constants/Colors";
 import { LinearGradient } from "expo-linear-gradient";
-import ConfirmText from "../../components/UI/ConfirmText";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
 
 import axios from "axios";
